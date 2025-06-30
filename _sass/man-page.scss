@@ -54,17 +54,19 @@
 
 .examples {
     img {
-        //border: 2px solid black;
+        scale: 75%;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
     }
 
     .option-param {
-        font-size: 0.8rem;
         font-family: monospace;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 2px;
-        margin: 2px;
-        background-color: white;
+        font-size: 0.9rem;
+        box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.1);
+        margin-left: 0.1rem;
+        margin-right: 0.1rem;
+        padding: 0.1rem;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
         white-space: nowrap;
     }
 }

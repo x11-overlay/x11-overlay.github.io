@@ -1,6 +1,6 @@
  # local development
 `sudo gem update --system`
-put `/home/ftorkler/.local/share/gem/ruby/3.4.0/bin`to path ()
+put `~/.local/share/gem/ruby/3.4.0/bin`to path ()
 use ruby -e 'puts Gem.user_dir'
 source ~/.profile
 `gem install rake`

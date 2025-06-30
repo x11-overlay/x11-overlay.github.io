@@ -124,7 +124,7 @@ h6 {
  * Links
  */
 a {
-    color: #2a7ae2;
+    color: var(--secondary-text-color);
     text-decoration: none;
 }
 a:visited {
@@ -161,10 +161,7 @@ blockquote > :last-child {
  */
 pre,
 code {
-    font-size: 15px;
     border: 1px solid #e8e8e8;
-    border-radius: 3px;
-    background-color: #eef;
 }
 
 code {
@@ -185,17 +182,17 @@ pre > code {
  * Wrapper
  */
 .wrapper {
-    max-width: -webkit-calc(800px - (30px * 2));
-    max-width: calc(800px - 30px * 2);
+    max-width: -webkit-calc(var(--page-width) - (30px * 2));
+    max-width: calc(var(--page-width) - 30px * 2);
     margin-right: auto;
     margin-left: auto;
     padding-right: 30px;
     padding-left: 30px;
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: var(--page-width)) {
     .wrapper {
-        max-width: -webkit-calc(800px - (30px));
-        max-width: calc(800px - (30px));
+        max-width: -webkit-calc(var(--page-width) - (30px));
+        max-width: calc(var(--page-width) - (30px));
         padding-right: 15px;
         padding-left: 15px;
     }
@@ -270,7 +267,11 @@ table td {
  * Syntax highlighting styles
  */
 .highlighter-rouge .highlight {
-    background: #eef;
+    background: var(--primary-header-bg-color);
+    box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.2);
+    border-color: rgba(0, 0, 0, 0.2);
+    border-top-width: 5px;
+    /* border-radius: 8px; */
 }
 .highlight {
     background: #fff;
@@ -365,7 +366,7 @@ table td {
         color: #099;
     }
     .s {
-        color: #d14;
+        color: #9c82a5;
     }
     .na {
         color: #008080;
@@ -392,7 +393,7 @@ table td {
         font-weight: bold;
     }
     .nn {
-        color: #555;
+        color: #665e99;
     }
     .nt {
         color: #000080;
@@ -402,6 +403,9 @@ table td {
     }
     .ow {
         font-weight: bold;
+    }
+    .py {
+        color: #444;
     }
     .w {
         color: #bbb;
@@ -419,34 +423,34 @@ table td {
         color: #099;
     }
     .sb {
-        color: #d14;
+        color: #444;
     }
     .sc {
-        color: #d14;
+        color: #444;
     }
     .sd {
-        color: #d14;
+        color: #444;
     }
     .s2 {
-        color: #d14;
+        color: #444;
     }
     .se {
-        color: #d14;
+        color: #444;
     }
     .sh {
-        color: #d14;
+        color: #444;
     }
     .si {
-        color: #d14;
+        color: #444;
     }
     .sx {
-        color: #d14;
+        color: #444;
     }
     .sr {
         color: #009926;
     }
     .s1 {
-        color: #d14;
+        color: #444;
     }
     .ss {
         color: #990073;
