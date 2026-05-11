@@ -34,6 +34,29 @@ desktop:
 
 ![example console command](/assets/images/example_color_overlay.webp)
 
+## Font Selection
+
+Fonts are rendered using the FreeType rasterizer, so any font installed on
+your system can be used. To find the correct name for a font, query
+fontconfig (linux / osx):
+
+```
+$> fc-list | grep -i "IBM"
+/usr/local/share/fonts/m/Mx437_IBM_VGA_8x16.ttf: Mx437 IBM VGA 8x16:style=Regular
+```
+
+The name reported by `fc-list` — here _Mx437 IBM VGA 8x16_ — is the value
+to pass to the <span class="option-param">-f</span> / <span class="option-param">\--font-name</span> option. The following command
+renders the project's ANSI logo with a classic IBM VGA font:
+
+```
+./x11-overlay -f "Mx437 IBM VGA 8x16" docs/logo.utf8.ans
+```
+
+Fonts that support the CP437 character set work particularly well for
+classic ANSI art. A good source for such fonts is
+[int10h.org](https://int10h.org/oldschool-pc-fonts/fontlist/?1).
+
 ## Alternative Fonts
 
 The primary font and size are set with the <span class="option-param">-f</span> / <span class="option-param">\--font-name</span> and <span class="option-param">-s</span> / <span class="option-param">\--font-size</span> options. Up to ten font slots (0–9) can be defined by passing comma-separated lists. Within the input file, the ANSI sequences <span class="sgr">[10</span> through <span class="sgr">[19</span> switch between these slots, and <span class="sgr">[10</span> resets back to the primary font.
