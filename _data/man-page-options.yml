@@ -2,11 +2,18 @@
   name: General
   options:
     - param: -c, --config=FILE
-      descr: file path to read configuration from
+      descr: >-
+        Path to a configuration file. If not specified, the default path
+        <code>~/.config/x11-overlayrc</code> is used when present.
+        Configuration values are merged in the following order of precedence:
+        built-in defaults &lt; config file &lt; command-line arguments.
     - param: -h, --help
       descr: Print program usage and quit.
     - param: -v, --verbose
-      descr: The verbose mode displays the path to the default configuration file, along with the final, merged configuration. This includes values from the optional default config file, an optional config file specified via command-line argument, and any additional command-line arguments. It might also print some debug output (like parsing errors).
+      descr: >-
+        Print the resolved configuration after merging built-in defaults,
+        config file values, and command-line arguments. Also prints the path
+        to the default configuration file and any parsing errors encountered.
     - param: -V, --version
       descr: Print version number and quit.
 
@@ -14,42 +21,92 @@
   name: Positioning
   options:
     - param: -e PIXEL
-      descr: Adds spacing (in pixels) to the screen edge. The affected edge depends on the selected orientation and has no effect when the orientation is set to <code>CENTER</code>. Can be a negative value and defaults to <code>0</code>.
+      descr: >-
+        Adds spacing (in pixels) from the screen edge to the overlay.
+        The affected edge depends on the selected orientation and has no
+        effect when the orientation is set to <code>CENTER</code>.
+        Can be a negative value and defaults to <code>0</code>.
     - param: -l PIXEL
-      descr: Adds spacing (in pixels) between each text line. Must be a non-negative value and defaults to <code>0</code>.
+      descr: >-
+        Adds extra vertical spacing (in pixels) between each text line.
+        Must be a non-negative value and defaults to <code>0</code>.
     - param: -m INDEX
-      descr: Specifies the monitor to use. Must be a non-negative value and defaults to <code>0</code>.
+      descr: >-
+        Specifies the monitor to display the overlay on in multi-monitor
+        setups. The first monitor index is <code>0</code>. Must be a non-negative
+        value and defaults to <code>0</code>.
     - param: -o ORIENTATION
-      descr: Positions the overlay along the screen edge specified by the orientation. Text lines are aligned accordingly; defaults to <code>NW</code> possible values are <code>N</code>, <code>NE</code>, <code>E</code>, <code>SE</code>, <code>S</code>, <code>SW</code>, <code>W</code>, <code>NW</code> and <code>CENTER</code>.
+      descr: >-
+        Positions the overlay along the screen edge specified by the
+        orientation and aligns text lines accordingly. Defaults to
+        <code>NW</code>. Possible values are <code>N</code>,
+        <code>NE</code>, <code>E</code>, <code>SE</code>, <code>S</code>,
+        <code>SW</code>, <code>W</code>, <code>NW</code> and
+        <code>CENTER</code>.
 
 - section:
   name: Font
   options:
     - param: -f, --font-name=FONT,..
-      descr: font name; defaults to <code>NotoSansMono</code>
+      descr: >-
+        Font name as known to fontconfig. Up to 10 comma-separated font
+        names can be specified, mapped to ANSI alternative font selection
+        escape sequences (font slots 0–9). If a slot is left empty, font
+        slot 0 is used as fallback. Defaults to <code>NotoSansMono</code>.
     - param: -s, --font-size=SIZE,..
-      descr: font size; defaults to <code>12</code>
+      descr: >-
+        Font size in points. Up to 10 comma-separated sizes can be
+        specified, corresponding to the 10 font slots. If a slot is left
+        empty, the size from slot 0 is used as fallback. Each value must
+        be at least <code>1</code>. Defaults to <code>12</code>.
 
 - section:
   name: Colors
   options:
     - param: -p, --profile=PROFILE
-      descr: profile for ansi colors; values are VGA or XP
+      descr: >-
+        ANSI color profile used for interpreting 3–4 bit and 8 bit color
+        codes. Determines the RGB values mapped to the standard ANSI color
+        indices. Possible values are <code>VGA</code> and <code>XP</code>.
+        Defaults to <code>VGA</code>.
     - param: --fg-color=COLOR
-      descr: foreground color; defaults to <sgr>97</sgr> (equals <sgr>38;2;255;255;255</sgr>)
+      descr: >-
+        Default foreground (text) color, specified as an ANSI SGR color
+        sequence (the leading ESC character can be omitted). Supports
+        3–4 bit (e.g. <sgr>97</sgr>), 8 bit (e.g. <sgr>38;5;15</sgr>),
+        and 24 bit (e.g. <sgr>38;2;255;255;255</sgr>) formats. Defaults
+        to <sgr>97</sgr> (equals <sgr>38;2;255;255;255</sgr>).
     - param: --fg-alpha=ALPHA
-      descr: foreground alpha; defaults to <code>200</code>
+      descr: >-
+        Foreground (text) opacity. Range is <code>0</code> (fully
+        transparent) to <code>255</code> (fully opaque). Defaults to
+        <code>200</code>.
     - param: --bg-color=COLOR
-      descr: background color; defaults to <sgr>40</sgr> (equals <sgr>48;2;0;0;0</sgr>)
+      descr: >-
+        Default background color, specified as an ANSI SGR color sequence
+        (the leading ESC character can be omitted). Supports the same
+        formats as <code>--fg-color</code>. Defaults to <sgr>40</sgr>
+        (equals <sgr>48;2;0;0;0</sgr>).
     - param: --bg-alpha=ALPHA
-      descr: background alpha; defaults to <code>100</code>
+      descr: >-
+        Background opacity. Range is <code>0</code> (fully transparent) to
+        <code>255</code> (fully opaque). Defaults to <code>100</code>.
 
 - section:
   name: Behavior
   options:
     - param: -d, --dim=PERCENT
-      descr: dim the text on mouse over; defaults to <code>75</code>%
+      descr: >-
+        Dimming percentage applied when the mouse cursor is over or near
+        the overlay. Higher values produce stronger dimming. Range is
+        <code>0</code>–<code>100</code>. Defaults to <code>75</code>%.
     - param: -D PERCENT
-      descr: dim the text in general; defaults to <code>0</code>%
+      descr: >-
+        Constant dimming percentage applied to the overlay at all times,
+        regardless of mouse position. Range is <code>0</code>–<code>100</code>.
+        Defaults to <code>0</code>%.
     - param: -t PIXEL
-      descr: pixel tolerance for mouse over dimming; defaults to <code>0</code>
+      descr: >-
+        Expands the detection area (in pixels) around the overlay for
+        triggering mouse-over dimming. Must be a non-negative value and
+        defaults to <code>0</code>.
