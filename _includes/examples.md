@@ -1,49 +1,56 @@
 <div markdown="1" class="examples">
 # Examples
 
-## Ansi Color Example
+## ANSI Colors
 
-To colorize a text line or just a single word the well known ansi escape codes can be used like it's common for text in a terminal.
+The input file is a plain UTF-8 text file. To colorize text, use the same
+ANSI escape sequences you would use in a terminal. Three color depths are
+supported — here is how to select red as a foreground color in each:
 
-For example selecting red as a foreground font color can be achieved by using one of three different ansi color codes:
-
-- <span class="sgr">[91</span> selects "Bright Red" out of a 16 color palette (4bit)
-- <span class="sgr">[38;5;9</span> selects "Intense Red" out of a 256 color palette (8bit)
-- <span class="sgr">[38;2;255;0;0</span> use "Red" color from RGB colors (24bit)
+- <span class="sgr">[91</span> — bright red from the 16-color palette (4 bit)
+- <span class="sgr">[38;5;9</span> — intense red from the 256-color palette (8 bit)
+- <span class="sgr">[38;2;255;0;0</span> — red as an RGB value (24 bit)
 
 ![example console command](/assets/images/example_color_console_echo.webp)
 
-By using multiple sequences in a single line, something more advanded can be achieved. Using
-"<span class="sgr">[91</span>CRIT<span class="sgr">[38;5;248</span>: Disk Space Usage (<span class="sgr">[97</span>96%<span class="sgr">[38;5;248</span>)<span class="sgr">[0</span>" for instance can be used to generate a critical alarm message with some details. The provided example file in the docs folder results to:
+Multiple sequences can be combined in a single line to style individual
+words. The following line, for instance, highlights the severity in bright
+red and the metric value in bright white while keeping the rest in gray:
+
+"<span class="sgr">[91</span>CRIT<span class="sgr">[38;5;248</span>: Disk Space Usage (<span class="sgr">[97</span>96%<span class="sgr">[38;5;248</span>)<span class="sgr">[0</span>"
+
+The provided example file in the docs folder uses this technique to build a
+small alarm dashboard:
+
 ![example console command](/assets/images/example_color_console_cat.webp)
 
-What you see in the console above is what you get with x11-overlay.
+What you see in the terminal is exactly what x11-overlay renders on your
+desktop:
 
 ```
-$> x11-overlay \
+./x11-overlay \
     docs/example-alarms.utf8.ans
 ```
 
 ![example console command](/assets/images/example_color_overlay.webp)
 
-## Ansi Font Example
+## Alternative Fonts
 
-The default font can be specified using the <span class="option-param">-f</span> or <span class="option-param">\--font-name</span> option, and the default font size with the <span class="option-param">-s</span> or <span class="option-param">\--font-size</span> option.
+The primary font and size are set with the <span class="option-param">-f</span> / <span class="option-param">\--font-name</span> and <span class="option-param">-s</span> / <span class="option-param">\--font-size</span> options. Up to ten font slots (0–9) can be defined by passing comma-separated lists. Within the input file, the ANSI sequences <span class="sgr">[10</span> through <span class="sgr">[19</span> switch between these slots, and <span class="sgr">[10</span> resets back to the primary font.
 
-In addition to the primary default font, alternative fonts can be selected dynamically by using ANSI control codes <span class="sgr">[11</span> to <span class="sgr">[19</span> within the text. To enable the use of alternative fonts or font sizes, their names or values must be provided as comma-separated lists in the respective option parameters.  
-The control code <span class="sgr">[10</span> resets the font and font size to the primary defaults.
-
-A command to enable multiple fonts and font sizes.
+The following command assigns _JetBrainsMono_ at size 18 to font slot 1:
 
 ```
-./bin/overlay -f NotoSansMono,JetBrainsMono -s 12,18 \
+./x11-overlay -f NotoSansMono,JetBrainsMono -s 12,18 \
     docs/example-alarms.utf8.ans
 ```
 
-As _NotoSansMono_ is the default font name and _12_ the default font size, they may be omitted in the parameter list by leaving the corresponding entry blank. This command produces the same result as the previous command, while omitting the explicit specification of the defaults - note the leading commata.
+Because _NotoSansMono_ and size _12_ are already the built-in defaults, the
+first entry in each list can be left blank. The command below produces the
+same result — note the leading commas:
 
 ```
-./bin/overlay -f ,JetBrainsMono -s ,18 \
+./x11-overlay -f ,JetBrainsMono -s ,18 \
     docs/example-alarms.utf8.ans
 ```
 
@@ -51,9 +58,11 @@ As _NotoSansMono_ is the default font name and _12_ the default font size, they 
 
 </div>
 
-## Config File Example
+## Config File
 
-Instead of passing all arguments in the command line, they can be provided by specifing a config file. Config files use the INI format. For the previous ANSI color example a config file _example-alarms.ini_ leads to the same result when the content is the following:
+All command-line arguments can also be provided through a config file in INI
+format. The previous font example is equivalent to the following
+_example-alarms.ini_:
 
 ```txt
 InputFile=docs/example-alarms.utf8.ans
@@ -67,5 +76,5 @@ Size=12,18
 ```
 
 ```
-./bin/overlay -c example-alarms.ini
+./x11-overlay -c example-alarms.ini
 ```
